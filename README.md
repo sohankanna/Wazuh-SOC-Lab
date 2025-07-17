@@ -8,6 +8,7 @@
 ## Overview
 
 **This project demonstrates the end-to-end deployment and configuration of a comprehensive Security Operations Center (SOC) using the open-source Wazuh SIEM/XDR platform. The goal was to build a multi-machine virtual lab to simulate and defend against real-world security threats. This involved extensive troubleshooting of networking, service configurations, and rule logic to create a stable, fully functional security monitoring environment that follows the full security lifecycle: from proactive defense to real-time detection and automated incident response.**
+
 ---
 
 ## Lab Architecture
