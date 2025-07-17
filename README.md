@@ -30,25 +30,29 @@ _<img width="1914" height="983" alt="Screenshot 2025-07-17 121401" src="https://
 
 I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This allowed for the detection of granular system activity often missed by standard logging. To prove the entire pipeline—from event generation on the agent to analysis on the server—was working, I created a custom rule to generate a high-priority alert whenever PowerShell was executed.
 
-_**[Screenshot 2: The Level 12 Sysmon alert for PowerShell execution]**_
+_<img width="1918" height="541" alt="Screenshot 2025-07-16 134621" src="https://github.com/user-attachments/assets/e5986be9-b7f3-442f-a962-c16add5d20b3" />
+
 
 ### 2. Proactive Vulnerability Detection
 
 I configured and enabled Wazuh's Vulnerability Detector module to proactively scan all endpoints for known Common Vulnerabilities and Exposures (CVEs). The system successfully identified 61 vulnerabilities on the Windows 11 endpoint, demonstrating the ability to assess security posture and prioritize patching efforts based on severity.
 
-_**[Screenshot 3: The Vulnerabilities tab for the Windows agent, showing High/Medium CVEs]**_
+<img width="1913" height="900" alt="Screenshot 2025-07-16 205949" src="https://github.com/user-attachments/assets/59a4500c-ce88-4d30-9c79-9ae723ed0cf0" />
+
 
 ### 3. Real-Time File Integrity Monitoring (FIM)
 
 To protect critical assets, I configured File Integrity Monitoring (FIM) to provide instant alerts for unauthorized file modifications. After initial troubleshooting revealed a persistent configuration sync issue, I successfully pivoted to a direct, local configuration on the agent. The test was conducted by creating a new file in the monitored `/home/arthur` directory, which immediately triggered the FIM alert. This demonstrated not only the ability to configure FIM but also to adapt and solve complex, real-world troubleshooting challenges.
 
-_**[Screenshot 4: The Level 5 "File added to the system" alert from the Linux agent]**_
+<img width="1905" height="828" alt="Screenshot 2025-07-16 230139" src="https://github.com/user-attachments/assets/db5774e6-4436-46cd-8e4e-39736c6051c5" />
+
 
 ### 4. Threat Intelligence Integration with VirusTotal
 
 I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware. A test using the EICAR file successfully triggered the FIM-to-VirusTotal pipeline, generating an alert that confirmed the successful API query and response. This turns a simple file event into an enriched, high-fidelity security signal.
 
-_**[Screenshot 5: The VirusTotal alert showing "61 engines detected this file"]**_
+<img width="1907" height="828" alt="Screenshot 2025-07-17 003953" src="https://github.com/user-attachments/assets/8b537a78-29db-4a7d-9de6-6a482128cdc2" />
+
 
 ---
 
