@@ -1,7 +1,3 @@
-# Wazuh-SOC-Lab
-A fully functional Security Operations Center (SOC) home lab using Wazuh for SIEM/XDR, featuring automated detection and response capabilities.
-
-
 # Wazuh SIEM/XDR Home Lab Project
 
 <p align="center">
@@ -10,17 +6,17 @@ A fully functional Security Operations Center (SOC) home lab using Wazuh for SIE
 
 ## Overview
 
-This project demonstrates the deployment and configuration of a comprehensive Security Operations Center (SOC) using the open-source Wazuh SIEM/XDR platform. The goal was to build a multi-machine virtual lab to simulate real-world security scenarios, including proactive vulnerability scanning, threat detection, and automated incident response.
+This project demonstrates the deployment and configuration of a comprehensive Security Operations Center (SOC) using the open-source Wazuh SIEM/XDR platform. The goal was to build a multi-machine virtual lab to simulate real-world security scenarios, including proactive vulnerability scanning, advanced threat detection, and automated incident response. This project involved extensive troubleshooting of networking, service configurations, and rule logic to create a stable, fully functional security monitoring environment.
 
 ---
 
 ## Lab Architecture
 
-The lab was built using Oracle VirtualBox and consists of four virtual machines on a dual-homed network (NAT Network for inter-VM communication and a Host-Only network for management):
+The lab was built using Oracle VirtualBox and consists of four virtual machines on a dual-homed network (a `NAT Network` for inter-VM communication and a `Host-Only` network for management):
 
 - **Wazuh Server:** Ubuntu Server running the central Wazuh manager, indexer, and dashboard.
 - **Windows Endpoint:** A Windows 11 Pro machine acting as a corporate workstation.
-- **Linux Endpoint:** An Ubuntu Server running an Apache web server, acting as a public-facing asset.
+- **Linux Endpoint:** An Ubuntu Server, acting as a company server.
 - **Attacker Machine:** A Kali Linux instance used to simulate threats.
 
 _**[Screenshot 1: Your VirtualBox Manager window showing the 4 VMs]**_
@@ -31,43 +27,43 @@ _**[Screenshot 1: Your VirtualBox Manager window showing the 4 VMs]**_
 
 ### 1. Advanced Endpoint Monitoring with Sysmon
 
-I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This allowed for the detection of suspicious process creation, such as the use of legitimate tools for malicious purposes ("Living off the Land"). I created a custom rule to generate a high-priority alert whenever PowerShell was executed.
+I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This allowed for the detection of granular system activity often missed by standard logging. To prove the entire pipeline—from event generation on the agent to analysis on the server—was working, I created a custom rule to generate a high-priority alert whenever PowerShell was executed.
 
 _**[Screenshot 2: The Level 12 Sysmon alert for PowerShell execution]**_
 
 ### 2. Proactive Vulnerability Detection
 
-I configured and enabled Wazuh's Vulnerability Detector module to proactively scan all endpoints for known Common Vulnerabilities and Exposures (CVEs). This demonstrates the ability to identify and prioritize system weaknesses before they can be exploited.
+I configured and enabled Wazuh's Vulnerability Detector module to proactively scan all endpoints for known Common Vulnerabilities and Exposures (CVEs). The system successfully identified 61 vulnerabilities on the Windows 11 endpoint, demonstrating the ability to assess security posture and prioritize patching efforts based on severity.
 
 _**[Screenshot 3: The Vulnerabilities tab for the Windows agent, showing High/Medium CVEs]**_
 
 ### 3. Real-Time File Integrity Monitoring (FIM)
 
-To protect critical assets, I configured FIM to monitor the web root directory (`/var/www/html`) on the Linux web server. This provides instant alerts for any unauthorized file modifications, such as a website defacement.
+To protect critical assets, I configured File Integrity Monitoring (FIM) to provide instant alerts for unauthorized file modifications. After initial troubleshooting revealed a persistent configuration sync issue, I successfully pivoted to a direct, local configuration on the agent. The test was conducted by creating a new file in the monitored `/home/arthur` directory, which immediately triggered the FIM alert. This demonstrated not only the ability to configure FIM but also to adapt and solve complex, real-world troubleshooting challenges.
 
-_**[Screenshot 4: The Level 7 "Integrity checksum changed" alert]**_
+_**[Screenshot 4: The Level 5 "File added to the system" alert from the Linux agent]**_
 
 ### 4. Threat Intelligence Integration with VirusTotal
 
-I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware, turning a simple file event into a critical, high-fidelity malware detection.
+I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware. A test using the EICAR file successfully triggered the FIM-to-VirusTotal pipeline, generating an alert that confirmed the successful API query and response. This turns a simple file event into an enriched, high-fidelity security signal.
 
-_**[Screenshot 5: The Level 12 VirusTotal alert showing "malicious file detected"]**_
+_**[Screenshot 5: The VirusTotal alert showing "61 engines detected this file"]**_
 
 ---
 
 ## Grand Finale: The Automated Kill Chain
 
-This final demonstration showcases a complete, automated "Detect and Respond" workflow.
+This final demonstration showcases a complete, automated "Detect and Respond" workflow using a classic brute-force attack scenario.
 
-**The Scenario:** An attacker (Kali Linux) successfully compromises the Linux web server and attempts to escalate their attack by launching a brute-force SSH attack against other machines.
+**The Scenario:** An attacker (Kali Linux) attempts to gain access to the `Linux-WebServer` by launching an SSH brute-force attack.
 
-**1. The Attack (Before):** The attacker has full connectivity and can ping the target machine successfully.
-_**[Screenshot 6A: The successful `ping` from Kali]**_
+**1. The Attack (Before):** The attacker has full connectivity and can successfully `ping` the target machine.
+_**[Screenshot 6A: The successful `ping` from Kali to the Linux server]**_
 
-**2. Detection and Response:** Wazuh detects the multiple failed login attempts, triggering a Level 10 alert. This alert immediately triggers a pre-configured Active Response rule, which executes a script on the target agent to block the attacker's source IP address.
+**2. Detection and Response:** Wazuh's log analysis engine detects the multiple failed SSH login attempts from the same source IP, triggering a Level 10 alert (Rule ID `2502`). This alert immediately triggers a pre-configured Active Response rule, which executes the `firewall-drop` script on the target agent to block the attacker's IP address.
 _**[Screenshot 6B: The Wazuh dashboard showing the Level 10 brute-force alert followed by the Level 3 "Host Blocked" alert]**_
 
-**3. The Result (After):** The attacker's IP is now blocked at the firewall level. All further connection attempts from the attacker fail.
+**3. The Result (After):** The attacker's IP is now blocked at the firewall level on the `Linux-WebServer`. All further connection attempts from the attacker fail.
 _**[Screenshot 6C: The failed `ping` from Kali, showing "Destination host unreachable"]**_
 
-This successful demonstration proves the lab's capability to not only detect threats in real-time but to automatically neutralize them without human intervention.
+This successful demonstration proves the lab's capability to not only detect threats in real-time but to automatically neutralize them without human intervention, completing the full security lifecycle.
