@@ -7,8 +7,7 @@
 
 ## Overview
 
-This project demonstrates the deployment and configuration of a comprehensive Security Operations Center (SOC) using the open-source Wazuh SIEM/XDR platform. The goal was to build a multi-machine virtual lab to simulate real-world security scenarios, including proactive vulnerability scanning, advanced threat detection, and automated incident response. This project involved extensive troubleshooting of networking, service configurations, and rule logic to create a stable, fully functional security monitoring environment.
-
+This project demonstrates the end-to-end deployment and configuration of a comprehensive Security Operations Center (SOC) using the open-source Wazuh SIEM/XDR platform. The goal was to build a multi-machine virtual lab to simulate and defend against real-world security threats. This involved extensive troubleshooting of networking, service configurations, and rule logic to create a stable, fully functional security monitoring environment that follows the full security lifecycle: from proactive defense to real-time detection and automated incident response.
 ---
 
 ## Lab Architecture
@@ -50,9 +49,10 @@ To protect critical assets, I configured File Integrity Monitoring (FIM) to prov
 
 ### 4. Threat Intelligence Integration with VirusTotal
 
-I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware. A test using the EICAR file successfully triggered the FIM-to-VirusTotal pipeline, generating an alert that confirmed the successful API query and response. This turns a simple file event into an enriched, high-fidelity security signal.
+I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware. A test using the EICAR file successfully triggered the FIM-to-VirusTotal pipeline, generating an alert that confirmed the successful API query and response. This successfully transformed a low-context FIM alert into an actionable, high-confidence security event.
 
-<img width="1907" height="828" alt="Screenshot 2025-07-17 003953" src="https://github.com/user-attachments/assets/8b537a78-29db-4a7d-9de6-6a482128cdc2" />
+<img width="1913" height="846" alt="Screenshot 2025-07-17 012737" src="https://github.com/user-attachments/assets/4bff9a95-a9fa-4bd0-9df3-a0c9242776f9" />
+
 
 
 ---
@@ -79,3 +79,7 @@ This final demonstration showcases a complete, automated "Detect and Respond" wo
 
 
 This successful demonstration proves the lab's capability to not only detect threats in real-time but to automatically neutralize them without human intervention, completing the full security lifecycle.
+
+## Project Configurations
+
+All custom configuration files, including the Wazuh server ossec.conf, the custom PowerShell detection rule in local_rules.xml, and the Sysmon configuration, are available in the configurations folder of this repository for review.
