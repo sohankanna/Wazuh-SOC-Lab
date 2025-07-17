@@ -48,12 +48,22 @@ I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This 
 
 ```
 </details>
-_<img width="1918" height="541" alt="Screenshot 2025-07-16 134621" src="https://github.com/user-attachments/assets/e5986be9-b7f3-442f-a962-c16add5d20b3" />
+<img width="1918" height="541" alt="Screenshot 2025-07-16 134621" src="https://github.com/user-attachments/assets/e5986be9-b7f3-442f-a962-c16add5d20b3" />
 
 ### 2. Proactive Vulnerability Detection
 
-I configured and enabled Wazuh's Vulnerability Detector module to proactively scan all endpoints for known Common Vulnerabilities and Exposures (CVEs). The system successfully identified 61 vulnerabilities on the Windows 11 endpoint, demonstrating the ability to assess security posture and prioritize patching efforts based on severity.
+To protect critical assets, I configured File Integrity Monitoring (FIM) to provide instant alerts for unauthorized file modifications. After initial troubleshooting revealed a persistent configuration sync issue, I successfully pivoted to a direct, local configuration on the agent's `ossec.conf` file to monitor the user's home directory.
 
+<details>
+  <summary><b>View FIM Configuration (Linux Agent ossec.conf)</b></summary>
+
+  ```xml
+  <!-- FIM - Real-time monitoring of user's home directory -->
+  <syscheck>
+    <directories check_all="yes" realtime="yes">/home/arthur</directories>
+  </syscheck>
+```
+</details>
 <img width="1913" height="900" alt="Screenshot 2025-07-16 205949" src="https://github.com/user-attachments/assets/59a4500c-ce88-4d30-9c79-9ae723ed0cf0" />
 
 
@@ -65,18 +75,44 @@ To protect critical assets, I configured File Integrity Monitoring (FIM) to prov
 
 
 ### 4. Threat Intelligence Integration with VirusTotal
+I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware, transforming a low-context FIM alert into an actionable, high-confidence security event.
 
-I integrated the Wazuh server with the VirusTotal API. This automatically checks the hash of any new file detected by FIM against VirusTotal's database of known malware. A test using the EICAR file successfully triggered the FIM-to-VirusTotal pipeline, generating an alert that confirmed the successful API query and response. This successfully transformed a low-context FIM alert into an actionable, high-confidence security event.
+<details>
+  <summary><b>View VirusTotal Integration (Server ossec.conf)</b></summary>
 
+  ```xml
+  <!-- VirusTotal Integration -->
+  <integration>
+    <name>virustotal</name>
+    <api_key>YOUR_API_KEY_HERE</api_key> <!-- API key hidden for security -->
+    <group>syscheck</group>
+    <alert_format>json</alert_format>
+  </integration>
+
+```
+</details>
 <img width="1913" height="846" alt="Screenshot 2025-07-17 012737" src="https://github.com/user-attachments/assets/4bff9a95-a9fa-4bd0-9df3-a0c9242776f9" />
-
-
 
 ---
 
 ## Grand Finale: The Automated Kill Chain
 
-This final demonstration showcases a complete, automated "Detect and Respond" workflow using a classic brute-force attack scenario.
+
+This final demonstration showcases a complete, automated "Detect and Respond" workflow using a classic brute-force attack scenario. I configured an Active Response to automatically block the source IP of an attacker after multiple failed SSH login attempts.
+
+<details>
+  <summary><b>View Active Response Configuration (Server ossec.conf)</b></summary>
+
+  ```xml
+  <!-- Active Response - Block IP on multiple failed logins -->
+  <active-response>
+    <command>firewall-drop</command>
+    <location>local</location>
+    <rules_id>2502</rules_id>
+    <timeout>600</timeout>
+  </active-response>
+```
+</details>
 
 **The Scenario:** An attacker (Kali Linux) attempts to gain access to the `Linux-WebServer` by launching an SSH brute-force attack.
 
