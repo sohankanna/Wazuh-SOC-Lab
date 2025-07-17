@@ -63,12 +63,17 @@ This final demonstration showcases a complete, automated "Detect and Respond" wo
 **The Scenario:** An attacker (Kali Linux) attempts to gain access to the `Linux-WebServer` by launching an SSH brute-force attack.
 
 **1. The Attack (Before):** The attacker has full connectivity and can successfully `ping` the target machine.
-_**[Screenshot 6A: The successful `ping` from Kali to the Linux server]**_
+
+<img width="640" height="295" alt="Screenshot 2025-07-17 010335" src="https://github.com/user-attachments/assets/58b0e28d-079f-4e9b-ab30-8c02474a0bec" />
 
 **2. Detection and Response:** Wazuh's log analysis engine detects the multiple failed SSH login attempts from the same source IP, triggering a Level 10 alert (Rule ID `2502`). This alert immediately triggers a pre-configured Active Response rule, which executes the `firewall-drop` script on the target agent to block the attacker's IP address.
-_**[Screenshot 6B: The Wazuh dashboard showing the Level 10 brute-force alert followed by the Level 3 "Host Blocked" alert]**_
+<img width="1919" height="861" alt="Screenshot 2025-07-17 015148" src="https://github.com/user-attachments/assets/8677175a-a7e1-4a75-97ed-a936febe0ccc" />
+
+<img width="1904" height="708" alt="Screenshot 2025-07-17 014614" src="https://github.com/user-attachments/assets/65ea18c5-c749-4fda-99ca-623ac0b36b8e" />
+
 
 **3. The Result (After):** The attacker's IP is now blocked at the firewall level on the `Linux-WebServer`. All further connection attempts from the attacker fail.
-_**[Screenshot 6C: The failed `ping` from Kali, showing "Destination host unreachable"]**_
+<img width="748" height="208" alt="Screenshot 2025-07-17 015648" src="https://github.com/user-attachments/assets/56e49162-8cce-45d9-bf13-4f072864c3be" />
+
 
 This successful demonstration proves the lab's capability to not only detect threats in real-time but to automatically neutralize them without human intervention, completing the full security lifecycle.
