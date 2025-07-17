@@ -118,9 +118,12 @@ This final demonstration showcases a complete, automated "Detect and Respond" wo
 
 **1. The Attack (Before):** The attacker has full connectivity and can successfully `ping` the target machine.
 
+
 <img width="640" height="295" alt="Screenshot 2025-07-17 010335" src="https://github.com/user-attachments/assets/58b0e28d-079f-4e9b-ab30-8c02474a0bec" />
 
+
 **2. Detection and Response:** Wazuh's log analysis engine detects the multiple failed SSH login attempts from the same source IP, triggering a Level 10 alert (Rule ID `2502`). This alert immediately triggers a pre-configured Active Response rule, which executes the `firewall-drop` script on the target agent to block the attacker's IP address.
+
 <img width="1919" height="861" alt="Screenshot 2025-07-17 015148" src="https://github.com/user-attachments/assets/8677175a-a7e1-4a75-97ed-a936febe0ccc" />
 
 <img width="1904" height="708" alt="Screenshot 2025-07-17 014614" src="https://github.com/user-attachments/assets/65ea18c5-c749-4fda-99ca-623ac0b36b8e" />
@@ -132,10 +135,6 @@ This final demonstration showcases a complete, automated "Detect and Respond" wo
 
 
 This successful demonstration proves the lab's capability to not only detect threats in real-time but to automatically neutralize them without human intervention, completing the full security lifecycle.
-
-## Project Configurations
-
-All custom configuration files, including the Wazuh server ossec.conf, the custom PowerShell detection rule in local_rules.xml, and the Sysmon configuration, are available in the configurations folder of this repository for review.
 
 ## Future Improvements
 This lab provides a strong foundation for further expansion. Future work could include:
