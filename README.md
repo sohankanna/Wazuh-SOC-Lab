@@ -30,6 +30,11 @@ _<img width="1914" height="983" alt="Screenshot 2025-07-17 121401" src="https://
 ### 1. Advanced Endpoint Monitoring with Sysmon
 
 I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This allowed for the detection of granular system activity often missed by standard logging. To prove the entire pipeline—from event generation on the agent to analysis on the server—was working, I created a custom rule to generate a high-priority alert whenever PowerShell was executed.
+<details>
+<summary><b>View Custom Rule (local_rules.xml)</b></summary>
+Generated xml
+
+      
 <!-- Custom rule to force alert on PowerShell start -->
 <group name="sysmon,">
  <rule id="100500" level="12">
@@ -39,6 +44,8 @@ I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This 
    <group>pci_dss_10.6.1,pci_dss_11.4,gdpr_IV_35.7.d,nist_800_53_AU.6,nist_800_53_SI.4,tsc_CC7.2,tsc_CC7.3,</group>
  </rule>
 </group>
+
+</details>
 
 _<img width="1918" height="541" alt="Screenshot 2025-07-16 134621" src="https://github.com/user-attachments/assets/e5986be9-b7f3-442f-a962-c16add5d20b3" />
 
