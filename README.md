@@ -19,7 +19,8 @@ The lab was built using Oracle VirtualBox and consists of four virtual machines 
 - **Linux Endpoint:** An Ubuntu Server, acting as a company server.
 - **Attacker Machine:** A Kali Linux instance used to simulate threats.
 
-_**https://github.com/sohankanna/Wazuh-SOC-Lab/raw/main/Screenshot%202025-07-17%20121401.png**_
+_<img width="1914" height="983" alt="Screenshot 2025-07-17 121401" src="https://github.com/user-attachments/assets/8d26e274-d911-475e-b399-84752d61daf1" />
+
 
 ---
 
