@@ -1,7 +1,8 @@
 # Wazuh SIEM/XDR Home Lab Project
 
 <p align="center">
-  <img src="YOUR_ARCHITECTURE_DIAGRAM_URL_HERE" width="700">
+  <img width="881" height="981" alt="Untitled Diagram drawio(1)" src="https://github.com/user-attachments/assets/36df27f3-0417-41a4-b6d7-10e022b91442" />
+
 </p>
 
 ## Overview
