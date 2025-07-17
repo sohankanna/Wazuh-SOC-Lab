@@ -84,3 +84,12 @@ This successful demonstration proves the lab's capability to not only detect thr
 ## Project Configurations
 
 All custom configuration files, including the Wazuh server ossec.conf, the custom PowerShell detection rule in local_rules.xml, and the Sysmon configuration, are available in the configurations folder of this repository for review.
+
+## Future Improvements
+This lab provides a strong foundation for further expansion. Future work could include:
+
+  Integrating a SOAR platform like Shuffle or TheHive to automate ticketing and case management.
+
+  Expanding to the cloud by deploying a Wazuh agent on an AWS EC2 instance.
+
+  Developing more complex attack chains involving lateral movement and data exfiltration to test more advanced detection rules.
