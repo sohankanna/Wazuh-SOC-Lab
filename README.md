@@ -47,6 +47,7 @@ I enhanced endpoint visibility on the Windows agent by integrating Sysmon. This 
 
 
 ```
+</details>
 _<img width="1918" height="541" alt="Screenshot 2025-07-16 134621" src="https://github.com/user-attachments/assets/e5986be9-b7f3-442f-a962-c16add5d20b3" />
 
 ### 2. Proactive Vulnerability Detection
