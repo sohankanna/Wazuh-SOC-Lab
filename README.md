@@ -74,6 +74,7 @@ This final demonstration showcases a complete, automated "Detect and Respond" wo
 
 
 **3. The Result (After):** The attacker's IP is now blocked at the firewall level on the `Linux-WebServer`. All further connection attempts from the attacker fail.
+
 <img width="748" height="208" alt="Screenshot 2025-07-17 015648" src="https://github.com/user-attachments/assets/56e49162-8cce-45d9-bf13-4f072864c3be" />
 
 
